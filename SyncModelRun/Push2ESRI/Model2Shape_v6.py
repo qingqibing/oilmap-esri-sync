@@ -7,7 +7,7 @@ Created on Apr 27, 2017
 import datetime
 startTime = datetime.datetime.now()
 
-import arcview
+#import arcview
 import arcpy
 import sys, os, struct#, numpy
 

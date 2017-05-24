@@ -353,7 +353,8 @@ public partial class _Default : System.Web.UI.Page
               //  AddScenarioToDatabase();
         }
         
-        string testCommand = @"F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\Push2ESRI\Model2Shape_v6.py " + @"F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\ModelData\WORLD\Outdata\SAMPLE_TEST_109_87799.inp F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\ModelData";
+        //testing with hardcoded version
+        //string testCommand = @"F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\Push2ESRI\Model2Shape_v6.py " + @"F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\ModelData\WORLD\Outdata\SAMPLE_TEST_109_87799.inp F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\ModelData";
         
         //convert the oilmap format to geodatabase
         string fileNameINP = _sWebPath + "\\" + sOutputPath + "\\Outdata\\" + _FileName + ".INP";
@@ -373,6 +374,7 @@ public partial class _Default : System.Web.UI.Page
                 break;
         }
 
+        //this may be in a different location so best to check all enviormental variables are correct
         string pyLoc = "\"" + sPythonPath + "ArcGIS" + sArcVersion + "\\python.exe\"";
 
         Push2ESRI(pyLoc, pyCommandInput);
@@ -398,7 +400,11 @@ public partial class _Default : System.Web.UI.Page
         {
             Response.Write("\n"+tmp);
         };
+
+        //this will create the webmap id
         //OilModelEngine.CreateWebMap()
+
+        //this will share the item with others in the group or orgainization 
         //OilModelEngine.ShareItem()
 
         modelProcess.WaitForExit();
