@@ -1,0 +1,48 @@
+﻿<Window x:Class="ManageScenariosWPF.MainWindow" Height="675.6" Width="1100" 
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="RPS OilMap Scenario Manager: ES2"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:basics="http://schemas.microsoft.com/wpf/2008/toolkit"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+    xmlns:esri="http://schemas.esri.com/arcgis/client/2009">
+    <Grid Background="White" Margin="0,10,0,0.2">
+        <Grid.Resources>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="0.8" />
+            <ColumnDefinition Width="333.6"/>
+        </Grid.ColumnDefinitions>
+        <esri:FeatureDataGrid Grid.Column="0" x:Name="MyDataGrid" Foreground="Black" RenderTransformOrigin="0.5,0.5" Margin="0,2,0,25.4" >
+            <esri:FeatureDataGrid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="0.273"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="0.715"/>
+                </TransformGroup>
+            </esri:FeatureDataGrid.RenderTransform>
+        </esri:FeatureDataGrid>
+        <esri:Map x:Name="MyMap" Grid.Column="1" IsLogoVisible="False" Loaded="MyMap_Loaded" WrapAround="True" UseAcceleratedDisplay="True" Margin="10,-22,5.2,158" Height="492" VerticalAlignment="Bottom">
+            <esri:ArcGISTiledMapServiceLayer ID="StreetMapLayer"
+                    Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"/>
+            <esri:FeatureLayer ID="TrajectoriesLayer" x:Name="TrajectoriesLayer"
+                                        Url="http://services.arcgis.com/7DPiBDyCvtJlGoFZ/arcgis/rest/services/ASA_OilMap_Models/FeatureServer/0"
+                                        DisableClientCaching="True"                                
+                                        Mode="Snapshot"
+                                        AutoSave="False"
+                                        OnDemandCacheSize="0"
+                                        OutFields="*"
+                                        MouseLeftButtonUp="FeatureLayer_MouseLeftButtonUp">
+            </esri:FeatureLayer>
+        </esri:Map>
+        <TextBox x:Name="ResponseTextBlock" Grid.Column="3" Text="Manage OilMap Scenarios:  Status Window"
+            TextAlignment="Left" TextWrapping="Wrap" Foreground="Black" HorizontalAlignment="Left" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Width="314" Margin="10,10,0,10.4">
+        </TextBox>
+        <Grid>
+            <Button x:Name="DeleteScenarioButton" Content="Delete Scenario(s)" Click="DeleteScenarioButton_Click" ToolTip="Select scenario(s) in the data grid.  Click 'Delete Scenarios' to delete all data related to the scenario(s)." Margin="525,512,-236,93.2" Panel.ZIndex="1" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="111" />
+        </Grid>
+    </Grid>
+</Window>
+
+

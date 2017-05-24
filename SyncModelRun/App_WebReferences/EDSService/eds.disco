@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://www.coastmap.com/eds20/eds.asmx?wsdl" docRef="http://www.coastmap.com/eds20/eds.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://www.coastmap.com/eds20/eds.asmx" xmlns:q1="http://09cb4f72-bab5-11db-8314-0800200c9a66/EDS" binding="q1:EDSSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://www.coastmap.com/eds20/eds.asmx" xmlns:q2="http://09cb4f72-bab5-11db-8314-0800200c9a66/EDS" binding="q2:EDSSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

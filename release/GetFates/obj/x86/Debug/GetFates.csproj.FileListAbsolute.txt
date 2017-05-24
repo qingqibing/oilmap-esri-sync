@@ -1,0 +1,5 @@
+F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\GetFates\bin\x86\Debug\GetFates.exe
+F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\GetFates\bin\x86\Debug\GetFates.pdb
+F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\GetFates\obj\x86\Debug\GetFates.csprojResolveAssemblyReference.cache
+F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\GetFates\obj\x86\Debug\GetFates.exe
+F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\GetFates\obj\x86\Debug\GetFates.pdb

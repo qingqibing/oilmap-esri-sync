@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ManageScenariosWPF.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="UrlFeatureService" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://services.arcgis.com/7DPiBDyCvtJlGoFZ/ArcGIS/rest/services/ASA_OilMap_Models/FeatureServer</Value>
+    </Setting>
+    <Setting Name="UrlLyrTrajectory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://services.arcgis.com/7DPiBDyCvtJlGoFZ/ArcGIS/rest/services/ASA_OilMap_Models/FeatureServer/0</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

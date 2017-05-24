@@ -1,0 +1,8 @@
+C:\projects\ds_oilmapweb\SyncModelRun\GetFates\obj\Debug\GetFates.exe
+C:\projects\ds_oilmapweb\SyncModelRun\GetFates\obj\Debug\GetFates.pdb
+C:\projects\ds_oilmapweb\SyncModelRun2\GetFates\obj\Debug\GetFates.exe
+C:\projects\ds_oilmapweb\SyncModelRun2\GetFates\obj\Debug\GetFates.pdb
+F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\GetFates\obj\Debug\GetFates.exe
+F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\GetFates\obj\Debug\GetFates.pdb
+F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\GetFates\bin\Debug\GetFates.exe
+F:\groups\rps_data\code\ds_oilmapweb\SyncModelRun\GetFates\bin\Debug\GetFates.pdb

@@ -1,0 +1,5 @@
+﻿http://services.arcgis.com/f6rONWRAyLGC1UKY/arcgis/rest/services/San_Francisco_Trajectory/FeatureServer
+
+http://services.arcgis.com/7DPiBDyCvtJlGoFZ/arcgis/rest/services/ASA_OilMap_Models/FeatureServer
+
+http://services.arcgis.com/f6rONWRAyLGC1UKY/ArcGIS/rest/services/Southern_California_Trajectories/FeatureServer

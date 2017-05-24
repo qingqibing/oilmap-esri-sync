@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://staging.asascience.com/sandbox/ed/dsOilmap/ds.asmx?wsdl" docRef="http://staging.asascience.com/sandbox/ed/dsOilmap/ds.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://staging.asascience.com/sandbox/ed/dsOilmap/ds.asmx" xmlns:q1="dsOILMAP" binding="q1:dsOILMAPSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://staging.asascience.com/sandbox/ed/dsOilmap/ds.asmx" xmlns:q2="dsOILMAP" binding="q2:dsOILMAPSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

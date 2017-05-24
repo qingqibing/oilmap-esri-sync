@@ -1,0 +1,10 @@
+C:\projects\ds_oilmapweb\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Debug\MainWindow.baml
+C:\projects\ds_oilmapweb\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Debug\Application.baml
+C:\projects\ds_oilmapweb\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Debug\MainWindow.g.cs
+C:\projects\ds_oilmapweb\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Debug\Application.g.cs
+C:\projects\ds_oilmapweb\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Debug\ManageScenariosWPF_MarkupCompile.cache
+C:\projects\ds_oilmapweb\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Debug\ManageScenariosWPF.g.resources
+C:\projects\ds_oilmapweb\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Debug\ManageScenariosWPF.exe
+C:\projects\ds_oilmapweb\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Debug\ManageScenariosWPF.pdb
+C:\projects\ds_oilmapweb\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\bin\Debug\ManageScenariosWPF.exe.config
+C:\projects\ds_oilmapweb\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Debug\ManageScenariosWPF.csprojResolveAssemblyReference.cache

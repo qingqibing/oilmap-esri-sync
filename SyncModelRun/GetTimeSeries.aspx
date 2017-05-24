@@ -1,0 +1,1 @@
+<%@ Page Language="C#" AutoEventWireup="true" ContentType="text/plain" CodeFile="GetTimeSeries.aspx.cs" Inherits="GetTimeSeries" %>
