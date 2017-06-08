@@ -180,6 +180,7 @@ def ReadOilmap2D(sGeoLocPath, sScenarioName, sSDEconn,casename,startD,simLength,
             for n in range(0,ncrecs4 -1):
                 i = grid_cell_data[n][0]
                 j = grid_cell_data[n][1]
+                thickness = grid_cell_data[n][2]
                  
                 lon1 = olonoil + ((i - 1) * dlonoil)
                 lat1 = olatoil + ((j - 1) * dlatoil)
