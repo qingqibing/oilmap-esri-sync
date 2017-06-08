@@ -73,7 +73,7 @@ def Get_OMC_StartPos(sOMC_Path, ntcsteps):
     return ts_start_pos
     
     
-def ReadOilmap2D(sGeoLocPath, sScenarioName, sSDEconn,casename,startD,simLength,spillAm,oilUnits,oilType):
+def ReadOilmap2D(sGeoLocPath, sScenarioName, sSDEconn,casename,startD,simLength,spillAm,oilUnits,oilType,description):
     
     splt, trk, thk = PrepFCs(sSDEconn)
     print "Elapsed time after creating geodatabase = "+str(datetime.datetime.now() - startTime)
@@ -133,9 +133,9 @@ def ReadOilmap2D(sGeoLocPath, sScenarioName, sSDEconn,casename,startD,simLength,
     del splt_cur
     
     
-    trk_cur = arcpy.da.InsertCursor(trk,['SHAPE@','SCENARIO','casename','startdate','interval','oilvolume','oilunits','oiltype'])
+    trk_cur = arcpy.da.InsertCursor(trk,['SHAPE@','SCENARIO','casename','startdate','interval','oilvolume','oilunits','oiltype','description'])
     trackline = arcpy.Polyline(Array)
-    trk_cur.insertRow([trackline,sScenarioName,casename,datetime.datetime.fromtimestamp(float(startD)),simLength,spillAm,oilUnits,oilType])
+    trk_cur.insertRow([trackline,sScenarioName,casename,datetime.datetime.fromtimestamp(float(startD)),simLength,spillAm,oilUnits,oilType,description])
     Array.removeAll()
     del trk_cur
     print "Elapsed time after creating spillets and track = "+str(datetime.datetime.now() - startTime)
@@ -205,14 +205,14 @@ def ReadOilmap2D(sGeoLocPath, sScenarioName, sSDEconn,casename,startD,simLength,
     print "Elapsed time after creating thickness grid = "+str(datetime.datetime.now() - startTime)
 
 
-def Run(sScenarioFile, casename,startD,simLength,spillAm,oilUnits,oilType):
+def Run(sScenarioFile, casename,startD,simLength,spillAm,oilUnits,oilType,description):
     sGeoLocPath = os.path.split(os.path.split(sScenarioFile)[0])[0]
     sScenarioName = os.path.splitext(os.path.split(sScenarioFile)[1])[0]
     
     #sFGDB = os.path.join(sOutputPath,sScenarioName+".gdb")
 
     sSDEpath = r"C:\dsOilESRI\Push2ESRI\database.sde"
-    ReadOilmap2D(sGeoLocPath, sScenarioName, sSDEpath, casename,startD,simLength,spillAm,oilUnits,oilType)
+    ReadOilmap2D(sGeoLocPath, sScenarioName, sSDEpath, casename,startD,simLength,spillAm,oilUnits,oilType,description)
     
     print "Elapsed time after completion = "+str(datetime.datetime.now() - startTime)   
     print "Done!"
@@ -223,5 +223,5 @@ def Run(sScenarioFile, casename,startD,simLength,spillAm,oilUnits,oilType):
 
 
 if __name__ == "__main__":
-    Run(sys.argv[1], sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6],sys.argv[7])
+    Run(sys.argv[1], sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6],sys.argv[7],sys.argv[8])
 

@@ -66,6 +66,7 @@ public partial class _Default : System.Web.UI.Page
     public bool _EntrainOn;
     private string _groupIDShare;
     private string _scriptID;
+    private string _description;
     private string _ShareEveryone;
 
     //XP added
@@ -367,7 +368,7 @@ public partial class _Default : System.Web.UI.Page
         TimeSpan t = _StartDate - new DateTime(1970, 1, 1);
         int secondsSinceEpoch = (int)t.TotalSeconds;
 
-        string pyCommandInput = _sWebPath + @"\Push2ESRI\"+ _scriptID + ".py " + fileNameINP + " "+ _sCaseName + " " + secondsSinceEpoch + " " + _SimLength+ " " + _SpillAmount+ " " + _OilUnits+ " \"" + _OilType+ "\"";
+        string pyCommandInput = _sWebPath + @"\Push2ESRI\"+ _scriptID + ".py " + fileNameINP + " "+ _sCaseName + " " + secondsSinceEpoch + " " + _SimLength+ " " + _SpillAmount+ " " + _OilUnits+ " \"" + _OilType+ "\"" + " \"" + _description + "\"";
 
 
         string sPythonPath = "";
@@ -810,6 +811,10 @@ public partial class _Default : System.Web.UI.Page
         _scriptID = "Model2Shape";
         if (Request.QueryString["scriptid"] != null)
             _scriptID = Request.QueryString["scriptid"];
+
+        _description = "";
+        if (Request.QueryString["description"] != null)
+            _scriptID = Request.QueryString["description"];
 
         _ShareEveryone = "false";
         if (Request.QueryString["every1share"] != null)
