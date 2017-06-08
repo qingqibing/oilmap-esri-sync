@@ -804,8 +804,6 @@ public class OilModelEngine:ModelEngine
         {
             return "ERROR: " + ex.Message;
         }
-
-        return "model complete";
         
         //string outputSpill = "";
         //LineObjJSON trajSpill = new LineObjJSON { };
@@ -822,14 +820,16 @@ public class OilModelEngine:ModelEngine
         //    //This will Post trackline and Spillets info
         //    createTrackline(trajSpill);
         //    //Create EPOc/Unix time
-        //    var timeStart = (_InputData.start - new DateTime(1970, 1, 1, 0, 0, 0));
-        //    var timeEnd = (_InputData.end - new DateTime(1970, 1, 1, 0, 0, 0));
+        var timeStart = (_InputData.start - new DateTime(1970, 1, 1, 0, 0, 0));
+        var timeEnd = (_InputData.end - new DateTime(1970, 1, 1, 0, 0, 0));
 
         //    //This will create WebMap to be retured
-        //    string webmapIDJSON;
-        //    webmapIDJSON = CreateWebMap(agoUser, _InputData.fileName, _InputData.caseName, timeStart.TotalSeconds.ToString(), timeEnd.TotalSeconds.ToString(), (_InputData.bBox.west + "," + _InputData.bBox.south + "," + _InputData.bBox.east + "," + _InputData.bBox.north), "");
-        //    webMapObject JSONObj = new JavaScriptSerializer().Deserialize<webMapObject>(webmapIDJSON);
-        //    ShareItem(agoUser, JSONObj.id, _InputData.every1, "true", _InputData.groupID, "");
+        string webmapIDJSON;
+        webmapIDJSON = CreateWebMap(agoUser, _InputData.fileName, _InputData.caseName, timeStart.TotalSeconds.ToString(), timeEnd.TotalSeconds.ToString(), (_InputData.bBox.west + "," + _InputData.bBox.south + "," + _InputData.bBox.east + "," + _InputData.bBox.north), "");
+        webMapObject JSONObj = new JavaScriptSerializer().Deserialize<webMapObject>(webmapIDJSON);
+        ShareItem(agoUser, JSONObj.id, _InputData.every1, "true", _InputData.groupID, "");
+
+        return "model complete";
         //    return webmapIDJSON;
         //    //_InputData.fileName;  
         //    //return Path.GetFileNameWithoutExtension(_InputData.fileName); 
@@ -958,7 +958,7 @@ public class OilModelEngine:ModelEngine
         string newWebMapJSON = sampleWebMapJSON.Replace(sampleTimeRange, newTimeRange);
 
         //REPLACE SCENARIO ID
-        string newScenarioIDExpression = string.Format("SCENARIO_ID = '{0}'", scenarioID);
+        string newScenarioIDExpression = string.Format("SCENARIO = '{0}'", scenarioID);
         newWebMapJSON = newWebMapJSON.Replace(scenarioIDExpression, newScenarioIDExpression);
 
         //REPLACE MAPSERVICE URL

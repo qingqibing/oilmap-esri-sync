@@ -65,6 +65,7 @@ public partial class _Default : System.Web.UI.Page
     public bool _EvapOn;
     public bool _EntrainOn;
     private string _groupIDShare;
+    private string _scriptID;
     private string _ShareEveryone;
 
     //XP added
@@ -135,10 +136,7 @@ public partial class _Default : System.Web.UI.Page
     {
         //Path Settings
         if (Request.QueryString.Count == 0)
-            //Response.Redirect("RunModel.aspx?CaseName=OILSPILL_test&ClientKey=agol_key&ModelType=OILSPILL&StartDate=20131222T12:00:00&simLength=24&WaterTemp=62.6F&IncLat=28.55&IncLon=-96.47&Winds=390&Currents=765&EcopWinds=GFS_winds&EcopCurrents=HYCOM_global_Navy_currents&OilType=Heavy%20Crude%20Oil&OilUnits=5&Duration=8&Location=WORLD&Volume=1000&group=62f6db44ba6d42a7b66334db5f0f0fe2&every1share=true");
-            //shell testing
-            //Response.Redirect("RunModel.aspx?CaseName=OILSPILL_test&ClientKey=shell_cop_spain&ModelType=OILSPILL&StartDate=20140909T12:00:00&simLength=24&WaterTemp=72.6F&IncLat=41.2301865&IncLon=3.537598&Winds=390&Currents=5011&EcopWinds=GFS_WINDS&EcopCurrents=MED_SEA_CURRENTS&Duration=6&Location=WORLD&&Volume=1000&group=62f6db44ba6d42a7b66334db5f0f0fe2&every1share=true&OilType=Heavy%20Crude%20Oil&OilUnits=5");
-            Response.Redirect("RunModel.aspx?CaseName=SAMPLE_TEST3&ClientKey=OilWebDemo17&ModelType=OILSPILL&StartDate=20170511T12:00:00&simLength=24&WaterTemp=72.6F&IncLat=33.856999&IncLon=-118.541794&Winds=390&Currents=765&EcopWinds=GFS_WINDS&EcopCurrents=HYCOM_global_Navy_currents&Duration=6&Location=WORLD&&Volume=1000&group=26a0a875df034445a8c840c6671f8f00&every1share=true&OilType=Heavy%20Crude%20Oil&OilUnits=5&FullPath=true");
+            Response.Redirect("RunModel.aspx?CaseName=SAMPLE_TEST3&ClientKey=OilWebDemo17&ModelType=OILSPILL&StartDate=20170511T12:00:00&simLength=24&WaterTemp=72.6F&IncLat=33.856999&IncLon=-118.541794&Winds=390&Currents=765&EcopWinds=GFS_WINDS&EcopCurrents=HYCOM_global_Navy_currents&Duration=6&Location=WORLD&&Volume=1000&group=7f22adb83ed7431f824df84a41a7f038&every1share=true&OilType=Heavy%20Crude%20Oil&OilUnits=5&FullPath=true&scriptid=Model2Shape");
         _sWebPath = Path.GetDirectoryName(Server.MapPath("ModelRunMapPath.txt"));
         _OutputFile = "ERROR: an unknown error has occured in Page_Load";
         
@@ -358,8 +356,20 @@ public partial class _Default : System.Web.UI.Page
         
         //convert the oilmap format to geodatabase
         string fileNameINP = _sWebPath + "\\" + sOutputPath + "\\Outdata\\" + _FileName + ".INP";
-        string pyCommandInput = _sWebPath + @"\Push2ESRI\Model2Shape_v6.py " + fileNameINP + " " + _sWebPath + @"\ModelData";
-        
+
+        //_sCaseName
+        //_StartDate
+        //_SpillAmount
+        //_OilType
+        //_OilUnits
+        //_SimLength
+
+        TimeSpan t = _StartDate - new DateTime(1970, 1, 1);
+        int secondsSinceEpoch = (int)t.TotalSeconds;
+
+        string pyCommandInput = _sWebPath + @"\Push2ESRI\"+ _scriptID + ".py " + fileNameINP + " "+ _sCaseName + " " + secondsSinceEpoch + " " + _SimLength+ " " + _SpillAmount+ " " + _OilUnits+ " \"" + _OilType+ "\"";
+
+
         string sPythonPath = "";
         string sArcVersion = "10.3";
 
@@ -376,6 +386,7 @@ public partial class _Default : System.Web.UI.Page
 
         //this may be in a different location so best to check all enviormental variables are correct
         string pyLoc = "\"" + sPythonPath + "ArcGIS" + sArcVersion + "\\python.exe\"";
+        //string pyLoc = @"C:\Python27\ArcGISx6410.5\python.exe";  for deploy on server
 
         Push2ESRI(pyLoc, pyCommandInput);
     }
@@ -795,6 +806,10 @@ public partial class _Default : System.Web.UI.Page
         _groupIDShare= "62f6db44ba6d42a7b66334db5f0f0fe2";
         if (Request.QueryString["group"] != null)
             _groupIDShare = Request.QueryString["group"];
+
+        _scriptID = "Model2Shape";
+        if (Request.QueryString["scriptid"] != null)
+            _scriptID = Request.QueryString["scriptid"];
 
         _ShareEveryone = "false";
         if (Request.QueryString["every1share"] != null)
