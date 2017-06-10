@@ -50,6 +50,7 @@ public class OilInputData:InputData
     private bool _ModelMethod;
     private string _groupId;
     private string _every1;
+    private string _descript;
 
     private double _CurrMag;
     private double _CurrDir;
@@ -140,6 +141,11 @@ public class OilInputData:InputData
     {
         get { return _every1; }
         set { _every1 = value; }
+    }
+    public string description
+    {
+        get { return _descript; }
+        set { _descript = value; }
     }
     public double spillLat
     {

@@ -38,7 +38,7 @@ def PrepFCs(sSDEconn):
                                                   "POSTGRESQL", "localhost,9876", "DATABASE_AUTH", sUser, sPassword,
                                                   "SAVE_USERNAME", sDatabase)    
 
-    return os.path.join(sSDEconn,".".join([sDatabase,sUser2,"spillets"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"trackline"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"thickness"]))
+    return os.path.join(sSDEconn,".".join([sDatabase,sUser2,"spillets_1"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"trackline_1"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"thickness_1"]))
 
 
 def Get_OMC_StartPos(sOMC_Path, ntcsteps):

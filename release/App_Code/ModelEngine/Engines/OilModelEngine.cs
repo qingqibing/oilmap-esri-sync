@@ -825,7 +825,7 @@ public class OilModelEngine:ModelEngine
 
         //    //This will create WebMap to be retured
         string webmapIDJSON;
-        webmapIDJSON = CreateWebMap(agoUser, _InputData.fileName, _InputData.caseName, timeStart.TotalSeconds.ToString(), timeEnd.TotalSeconds.ToString(), (_InputData.bBox.west + "," + _InputData.bBox.south + "," + _InputData.bBox.east + "," + _InputData.bBox.north), "");
+        webmapIDJSON = CreateWebMap(agoUser, _InputData.fileName, _InputData.caseName, timeStart.TotalSeconds.ToString(), timeEnd.TotalSeconds.ToString(), (_InputData.bBox.west + "," + _InputData.bBox.south + "," + _InputData.bBox.east + "," + _InputData.bBox.north), "",_InputData.description);
         webMapObject JSONObj = new JavaScriptSerializer().Deserialize<webMapObject>(webmapIDJSON);
         ShareItem(agoUser, JSONObj.id, _InputData.every1, "true", _InputData.groupID, "");
 
@@ -899,7 +899,8 @@ public class OilModelEngine:ModelEngine
         string startTime,
         string endTime,
         string extent,
-        string tokenIn
+        string tokenIn,
+        string descriptionText
         )
     {
         string token = tokenIn;
@@ -980,14 +981,14 @@ public class OilModelEngine:ModelEngine
         postData += "&tags=OilMap";
 
         //snippet (TODO: get snippet from client)
-        postData += string.Format("&snippet={0}", title);
+        postData += string.Format("&snippet={0}", descriptionText);
 
         //extent
         if (!(string.IsNullOrEmpty(extent)))
         {
             postData += string.Format("&extent={0}", extent);
         }
-
+        //postData += string.Format("&subtitle={0}", "adf"); 
         //text
         postData += string.Format("&text={0}", newWebMapJSON);
 
