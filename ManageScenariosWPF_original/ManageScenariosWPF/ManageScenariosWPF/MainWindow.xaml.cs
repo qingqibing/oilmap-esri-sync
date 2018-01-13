@@ -20,13 +20,12 @@ namespace ManageScenariosWPF
                 new ESRI.ArcGIS.Client.Projection.WebMercator();
 
         private BackgroundWorker backgroundWorker1;
+        public String UrlFeatureService;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeBackgroundWorker();
-
-            //TrajectoriesLayer.Url = Properties.Settings.Default.UrlFeatureService;
         }
 
         // Set up the BackgroundWorker object by  
@@ -52,6 +51,7 @@ namespace ManageScenariosWPF
                 MyDataGrid.ScrollIntoView(e.Graphic, null);
 
             _lastGraphic = e.Graphic;
+            MyMap.ZoomTo(e.Graphic.Geometry);  
         }
 
         [Serializable]
@@ -62,7 +62,7 @@ namespace ManageScenariosWPF
             public long expires { get; set; }
         }
 
-        private void MyMap_Loaded(object sender, RoutedEventArgs e)
+        private void MyMap_Loaded()
         {
             //trying to get the tokens working with secure data
             //not working
@@ -76,22 +76,30 @@ namespace ManageScenariosWPF
 
             ////Token oAuth2Token = js.Deserialize<Token>(responseData);
             //Token agsToken = js.Deserialize<Token>(agsTokenData);
+            var layerCollection = new LayerCollection();
 
-            //var layerCollection = new LayerCollection();
-
-            ////a.Map.Layers.Clear();
-            //var mylayer = new FeatureLayer();
-            //mylayer.Url = "http://services.arcgis.com/f6rONWRAyLGC1UKY/ArcGIS/rest/services/ASA_OilMap_Models/FeatureServer/0";
-            //mylayer.Token = agsToken.token;
-            ////var mylayerBase = this.MyMap.Layers[0] as TiledMapServiceLayer;
-            //var mylayerGraphic = mylayer as ESRI.ArcGIS.Client.GraphicsLayer;
-            ////layerCollection.Add(mylayerBase);
-            //layerCollection.Add(MyMap.Layers[0]);
-            //layerCollection.Add(mylayerGraphic);
-            //MyMap.Layers = layerCollection;
-
-            MyDataGrid.Map = MyMap;
-            MyDataGrid.GraphicsLayer = MyMap.Layers[1] as ESRI.ArcGIS.Client.GraphicsLayer;
+            try
+            {
+                ////a.Map.Layers.Clear();
+                UrlFeatureService = urlText.Text;
+                var mylayer = new FeatureLayer();
+                mylayer.Url = urlText.Text + "/0";
+                mylayer.OutFields = new OutFields() { "*" }; 
+                //mylayer.Token = agsToken.token;
+                var mylayerBase = this.MyMap.Layers[0] as TiledMapServiceLayer;
+                var mylayerGraphic = mylayer as ESRI.ArcGIS.Client.GraphicsLayer;
+                layerCollection.Add(mylayerBase);
+                //layerCollection.Add(MyMap.Layers[0]);
+                layerCollection.Add(mylayerGraphic);
+                MyMap.Layers = layerCollection;
+                MyDataGrid.Map = MyMap;
+                MyDataGrid.GraphicsLayer = MyMap.Layers[1] as ESRI.ArcGIS.Client.GraphicsLayer;
+            }
+            catch (Exception ex)
+            {
+                backgroundWorker1.ReportProgress(0, "Please enter valid URL");
+                return;
+            }
         }
 
         private void DeleteScenarioButton_Click(object sender, RoutedEventArgs e)
@@ -108,6 +116,12 @@ namespace ManageScenariosWPF
             backgroundWorker1.RunWorkerAsync(MyDataGrid.SelectedGraphics);
         }
 
+        private void RefreshScenarioButton_Click(object sender, RoutedEventArgs e)
+        {
+            ClearStatus();
+            MyMap_Loaded();
+        }
+
         private void UpdateStatus(string text)
         {
             ResponseTextBlock.Text = (text + "\n" + ResponseTextBlock.Text);
@@ -117,7 +131,6 @@ namespace ManageScenariosWPF
         {
             ResponseTextBlock.Text = "Manage OilMap Scenarios:  Status Window";
         }
-
 
         // Worker Method 
         void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -132,33 +145,33 @@ namespace ManageScenariosWPF
             //get the graphics from calling thread
             IList<Graphic> trajectories = e.Argument as IList<Graphic>;
 
-            string[] layerNames = { "Trajectory", "Particles", "Thickness", "Currents", "Winds" };
+            string[] layerNames = { "Trajectory", "Particles", "Thickness"};
             int i = 0;
             int batchSize = 500;
             //string[] templayerlistfix = { "2015-04-06_625_27413", "Light Crude 500 bbls_272_78240", "Medium Crude-1,000 bbls_284_63507", "ScenarioName_206_93879", "ScenarioName_301_39787", "ScenarioName_556_53855", "ScenarioName_935_84617", "ScenarioName_964_59382" };
             foreach (var trajectory in trajectories)
             {
                 i++;
-                if (trajectory.Attributes["SCENARIO_ID"] == null)
+                if (trajectory.Attributes["scenario"] == null)
                 {
                     worker.ReportProgress(0, "no SCENARIO_ID found in trajectory " + i);
                     continue;
                 }
-                if (string.IsNullOrEmpty(trajectory.Attributes["SCENARIO_ID"].ToString()))
+                if (string.IsNullOrEmpty(trajectory.Attributes["scenario"].ToString()))
                 {
                     worker.ReportProgress(0, "SCENARIO_ID in trajectory " + i + " is empty");
                     continue;
                 }
 
-                string scenario = trajectory.Attributes["SCENARIO_ID"].ToString();
-                string strWhere = string.Format("SCENARIO_ID='{0}'", scenario);
+                string scenario = trajectory.Attributes["scenario"].ToString();
+                string strWhere = string.Format("scenario='{0}'", scenario);
                 //string scenario = "OILSPILL_test_";
                 //string strWhere = "SCENARIO_ID like 'OILSPILL_test_%'";
                 
                 //string postData = string.Format("where={0}", WebUtility.UrlEncode(strWhere));
 
                 //process each layer
-                for (int layerId = 4; layerId >= 0; layerId--)
+                for (int layerId = 2; layerId >= 0; layerId--)
                 {
                     string noFeaturesAlert = string.Format("No features found in {0}: {1}", scenario, layerNames[layerId]);
 
@@ -191,7 +204,7 @@ namespace ManageScenariosWPF
                     delimIds = delimIds.Substring(0, delimIds.Length - 1);
                     string[] aryDelimIds = delimIds.Split(";".ToCharArray());
 
-                    string layerUrl = string.Format("{0}/{1}/deleteFeatures?f=json", Properties.Settings.Default.UrlFeatureService, layerId);
+                    string layerUrl = string.Format("{0}/{1}/deleteFeatures?f=json", UrlFeatureService, layerId);
 
                     foreach (string ids in aryDelimIds)
                     {
@@ -292,7 +305,7 @@ namespace ManageScenariosWPF
             };
             QueryTask queryTask = new QueryTask()
             {
-                Url = string.Format("{0}/{1}", Properties.Settings.Default.UrlFeatureService, layerId)
+                Url = string.Format("{0}/{1}", UrlFeatureService, layerId)
             };
             return queryTask.Execute(query);
         }

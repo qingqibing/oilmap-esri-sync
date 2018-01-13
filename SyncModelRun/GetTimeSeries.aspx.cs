@@ -21,7 +21,7 @@ public partial class GetTimeSeries : System.Web.UI.Page
     {
         if (Request.QueryString.Count == 0)
             //Response.Redirect(HttpContext.Current.Request.Url.AbsoluteUri + "?ClientName=None&ModelType=OILSPILL&CaseName=OILSPILL_5_294_989_12815&Location=World");
-            Response.Redirect(HttpContext.Current.Request.Url.AbsoluteUri + "?ClientName=dubai20110301&ModelType=OILSPILL&CaseName=OILSPILL_56_484_95701&Location=dubai&UseEXE=true");
+            Response.Redirect(HttpContext.Current.Request.Url.AbsoluteUri + "?ClientName=dubai20110301&ModelType=OILSPILL&CaseName=SAMPLE_TEST3_153_38209&Location=world&UseEXE=true");
         //TO BE REPLACED WITH SOMTHING MORE SECURE
         _ModelType = "OILSPILL";
         if (Request.QueryString["ModelType"] != null)

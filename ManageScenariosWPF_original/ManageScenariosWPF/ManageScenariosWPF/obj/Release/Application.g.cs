@@ -63,7 +63,7 @@ namespace ManageScenariosWPF {
             
             #line default
             #line hidden
-            System.Uri resourceLocater = new System.Uri("/ManageScenariosWPF;component/application.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/RPS_ARCGIS_SCENARIO_MANAGER;component/application.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\Application.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

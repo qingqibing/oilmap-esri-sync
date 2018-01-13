@@ -1,19 +1,19 @@
 ﻿<Window x:Class="ManageScenariosWPF.MainWindow" Height="675.6" Width="1100" 
-xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="RPS OilMap Scenario Manager: ES2"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="RPS OilMap Scenario Manager: Woodside"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:basics="http://schemas.microsoft.com/wpf/2008/toolkit"
     xmlns:sys="clr-namespace:System;assembly=mscorlib" 
     xmlns:esri="http://schemas.esri.com/arcgis/client/2009">
-    <Grid Background="White" Margin="0,10,0,0.2">
+    <Grid Background="White" Margin="0,10,-0.4,-20.4">
         <Grid.Resources>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="276" />
             <ColumnDefinition />
-            <ColumnDefinition Width="0.8" />
-            <ColumnDefinition Width="333.6"/>
+            <ColumnDefinition Width="0" />
+            <ColumnDefinition Width="280"/>
         </Grid.ColumnDefinitions>
-        <esri:FeatureDataGrid Grid.Column="0" x:Name="MyDataGrid" Foreground="Black" RenderTransformOrigin="0.5,0.5" Margin="0,2,0,25.4" >
+        <esri:FeatureDataGrid Grid.Column="0" x:Name="MyDataGrid" Foreground="Black" RenderTransformOrigin="0.5,0.5" Margin="0,0,529.4,26" Grid.ColumnSpan="2" >
             <esri:FeatureDataGrid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -23,24 +23,27 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="RPS Oil
                 </TransformGroup>
             </esri:FeatureDataGrid.RenderTransform>
         </esri:FeatureDataGrid>
-        <esri:Map x:Name="MyMap" Grid.Column="1" IsLogoVisible="False" Loaded="MyMap_Loaded" WrapAround="True" UseAcceleratedDisplay="True" Margin="10,-22,5.2,158" Height="492" VerticalAlignment="Bottom">
+        <esri:Map x:Name="MyMap" Grid.Column="1" IsLogoVisible="False" WrapAround="True" UseAcceleratedDisplay="True" Margin="10,-15,7.6,158.4" Height="492" VerticalAlignment="Bottom">
             <esri:ArcGISTiledMapServiceLayer ID="StreetMapLayer"
                     Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"/>
-            <esri:FeatureLayer ID="TrajectoriesLayer" x:Name="TrajectoriesLayer"
-                                        Url="http://services.arcgis.com/7DPiBDyCvtJlGoFZ/arcgis/rest/services/ASA_OilMap_Models/FeatureServer/0"
+            <!--<esri:FeatureLayer ID="TrajectoriesLayer" x:Name="TrajectoriesLayer"
+                                        Url="https://arc01.asascience.com/server/rest/services/oilmap/oilspill/FeatureServer/0"
                                         DisableClientCaching="True"                                
                                         Mode="Snapshot"
                                         AutoSave="False"
                                         OnDemandCacheSize="0"
                                         OutFields="*"
                                         MouseLeftButtonUp="FeatureLayer_MouseLeftButtonUp">
-            </esri:FeatureLayer>
+            </esri:FeatureLayer>-->
         </esri:Map>
-        <TextBox x:Name="ResponseTextBlock" Grid.Column="3" Text="Manage OilMap Scenarios:  Status Window"
-            TextAlignment="Left" TextWrapping="Wrap" Foreground="Black" HorizontalAlignment="Left" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Width="314" Margin="10,10,0,10.4">
-        </TextBox>
-        <Grid>
-            <Button x:Name="DeleteScenarioButton" Content="Delete Scenario(s)" Click="DeleteScenarioButton_Click" ToolTip="Select scenario(s) in the data grid.  Click 'Delete Scenarios' to delete all data related to the scenario(s)." Margin="525,512,-236,93.2" Panel.ZIndex="1" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="111" />
+        <TextBox x:Name="ResponseTextBlock" Grid.Column="1" Text="Manage OilMap Scenarios:  Status Window"
+            TextAlignment="Left" TextWrapping="Wrap" Foreground="Black" HorizontalAlignment="Left" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Width="273" Margin="536,10,0,10" Grid.ColumnSpan="3">
+        </TextBox> 
+        <Grid Grid.ColumnSpan="2" Margin="0,0,364.4,0">
+            <Label Margin="301,534,-321,87" Content="Example: https://test.com/server/rest/services/oilmap/oilspill/FeatureServer" FontSize="10" ToolTip="" FontStyle="Italic" FontWeight="Bold"/>
+            <TextBox Name="urlText" Margin="301,503,-321,127" Text="enter feature service url" FontSize="10" ToolTip="enter feature service url"/>
+            <Button x:Name="RefreshScenarioButton" Content="Refresh Scenarios" Click="RefreshScenarioButton_Click" ToolTip="Request Scenarios from Service." Margin="334,576,-21.2,47.6" Panel.ZIndex="1" RenderTransformOrigin="1,0.5" HorizontalAlignment="Left" Width="137" />
+            <Button x:Name="DeleteScenarioButton" Content="Delete Scenario(s)" Click="DeleteScenarioButton_Click" ToolTip="Select scenario(s) in the data grid.  Click 'Delete Scenarios' to delete all data related to the scenario(s)." Margin="579,574,-266.2,46.6" Panel.ZIndex="1" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="137" />
         </Grid>
     </Grid>
 </Window>
