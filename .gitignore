@@ -1,5 +1,10 @@
+*.ERR
+*.CMT
+*.WNE
+LogFile.txt
 *.NC
 *.OML
 *.dbf
 *.ini
+*.inp
 *.CSV

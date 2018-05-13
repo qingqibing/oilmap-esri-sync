@@ -140,7 +140,7 @@ public partial class _Default : System.Web.UI.Page
         //Path Settings
         if (Request.QueryString.Count == 0)
             //W00ds1de337 //woodside
-            Response.Redirect("RunModel.aspx?CaseName=SAMPLE_TEST3&ClientKey=OilWebDemo17&ModelType=OILSPILL&StartDate=20170511T12:00:00&simLength=24&WaterTemp=72.6F&IncLat=33.856999&IncLon=-118.541794&Winds=390&Currents=765&EcopWinds=GFS_WINDS&EcopCurrents=HYCOM_global_Navy_currents&Duration=6&Location=WORLD&&Volume=1000&group=7f22adb83ed7431f824df84a41a7f038&every1share=true&OilType=Heavy%20Crude%20Oil&OilUnits=5&FullPath=true&scriptid=Model2Shape&description=test");
+            Response.Redirect("RunModel.aspx?CaseName=SAMPLE_TEST3&ClientKey=OilWebDemo17&ModelType=OILSPILL&StartDate=20170511T12:00:00&simLength=24&WaterTemp=72.6F&IncLat=33.856999&IncLon=-118.541794&Winds=390&Currents=765&EcopWinds=GFS_WINDS&EcopCurrents=HYCOM_global_Navy_currents&Duration=6&Location=WORLD&&Volume=1000&group=7f22adb83ed7431f824df84a41a7f038&every1share=true&OilType=Heavy%20Crude%20Oil&OilUnits=5&FullPath=true&scriptid=Model2Shape&description=test&WNEID=46088&CMTID=46088");
         _sWebPath = Path.GetDirectoryName(Server.MapPath("ModelRunMapPath.txt"));
         _OutputFile = "ERROR: an unknown error has occured in Page_Load";
         
@@ -189,8 +189,16 @@ public partial class _Default : System.Web.UI.Page
         //For WNE Winds
         if (_WNEWinds != "")
         {
-            string sOutFilename = _sWebPath + sOutputPath + "\\winds\\" + _FileName;
-            //myProcessor.DownloadDataFile(sOutFilename, sFilename);
+            string sOutFilename = _sWebPath + sOutputPath + "\\winds\\" + _FileName + ".WNE";
+            string sDate = _StartDate.ToString("yyyy-MM-ddThh:mm:ssZ");
+            string eDate = _EndDate.ToString("yyyy-MM-ddThh:mm:ssZ");
+
+            string wneURL = "http://data.oceansmap.com/model_data_service/get_data?start_time="+ sDate + "&end_time="+ eDate + "&station_id="+ _WNEWinds + "&type=WNE&source_id=ndbc";
+            using (var client = new WebClient())
+            {
+                //"http://data.oceansmap.com/model_data_service/get_data?start_time=2018-03-04T00:00:00Z&end_time=2018-03-10T00:00:00Z&station_id=46088&type=WNE&source_id=ndbc"
+                client.DownloadFile(wneURL, sOutFilename);
+            }
             windsStat = sOutFilename;
         }
         else if (_Winds == m_cLocal)
@@ -233,8 +241,15 @@ public partial class _Default : System.Web.UI.Page
         //For CMT Currents
         if (_CMTCurrents != "")
         {
-            string sOutFilename = _sWebPath + sOutputPath + "\\currents\\" + _FileName + ".NC";
-            //myProcessor.DownloadDataFile(sOutFilename, sFilename);
+            string sOutFilename = _sWebPath + sOutputPath + "\\currents\\" + _FileName + ".CMT";
+            string sDate = _StartDate.ToString("yyyy-MM-ddThh:mm:ssZ");
+            string eDate = _EndDate.ToString("yyyy-MM-ddThh:mm:ssZ");
+            string cmtURL = "http://data.oceansmap.com/model_data_service/get_data?start_time=" + sDate + "&end_time=" + eDate + "&station_id=" + _CMTCurrents + "&type=CMT&source_id=ndbc";
+            using (var client = new WebClient())
+            {
+                //"http://data.oceansmap.com/model_data_service/get_data?start_time=2018-03-04T00:00:00Z&end_time=2018-03-10T00:00:00Z&station_id=46088&type=CMT&source_id=ndbc"
+                client.DownloadFile(cmtURL, sOutFilename);
+            }
             currStat = sOutFilename;
         }
         else if (_Currents == m_cLocal)
