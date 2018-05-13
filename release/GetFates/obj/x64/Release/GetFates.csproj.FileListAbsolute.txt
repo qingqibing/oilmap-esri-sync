@@ -1,0 +1,5 @@
+F:\groups\rps_data\code\oilmap-esri-sync\SyncModelRun\GetFates\bin\x64\Release\GetFates.exe
+F:\groups\rps_data\code\oilmap-esri-sync\SyncModelRun\GetFates\bin\x64\Release\GetFates.pdb
+F:\groups\rps_data\code\oilmap-esri-sync\SyncModelRun\GetFates\obj\x64\Release\GetFates.csprojResolveAssemblyReference.cache
+F:\groups\rps_data\code\oilmap-esri-sync\SyncModelRun\GetFates\obj\x64\Release\GetFates.exe
+F:\groups\rps_data\code\oilmap-esri-sync\SyncModelRun\GetFates\obj\x64\Release\GetFates.pdb

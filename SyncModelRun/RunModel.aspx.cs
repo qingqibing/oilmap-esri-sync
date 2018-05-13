@@ -51,6 +51,8 @@ public partial class _Default : System.Web.UI.Page
     private int _Currents;
     private string _EcopWinds;
     private string _EcopCurrents;
+    private string _WNEWinds;
+    private string _CMTCurrents;
     private double _WindMag;
     private double _WindDir;
     private double _CurrMag;
@@ -137,7 +139,8 @@ public partial class _Default : System.Web.UI.Page
     {
         //Path Settings
         if (Request.QueryString.Count == 0)
-            Response.Redirect("RunModel.aspx?CaseName=SAMPLE_TEST3&ClientKey=W00ds1de337&ModelType=OILSPILL&StartDate=20170511T12:00:00&simLength=24&WaterTemp=72.6F&IncLat=33.856999&IncLon=-118.541794&Winds=390&Currents=765&EcopWinds=GFS_WINDS&EcopCurrents=HYCOM_global_Navy_currents&Duration=6&Location=WORLD&&Volume=1000&group=7f22adb83ed7431f824df84a41a7f038&every1share=true&OilType=Heavy%20Crude%20Oil&OilUnits=5&FullPath=true&scriptid=Model2Shape&description=test");
+            //W00ds1de337 //woodside
+            Response.Redirect("RunModel.aspx?CaseName=SAMPLE_TEST3&ClientKey=OilWebDemo17&ModelType=OILSPILL&StartDate=20170511T12:00:00&simLength=24&WaterTemp=72.6F&IncLat=33.856999&IncLon=-118.541794&Winds=390&Currents=765&EcopWinds=GFS_WINDS&EcopCurrents=HYCOM_global_Navy_currents&Duration=6&Location=WORLD&&Volume=1000&group=7f22adb83ed7431f824df84a41a7f038&every1share=true&OilType=Heavy%20Crude%20Oil&OilUnits=5&FullPath=true&scriptid=Model2Shape&description=test");
         _sWebPath = Path.GetDirectoryName(Server.MapPath("ModelRunMapPath.txt"));
         _OutputFile = "ERROR: an unknown error has occured in Page_Load";
         
@@ -183,8 +186,14 @@ public partial class _Default : System.Web.UI.Page
         EDSProcessor myProcessor = new EDSProcessor();
 
         string windsStat = "";
-
-        if (_Winds == m_cLocal)
+        //For WNE Winds
+        if (_WNEWinds != "")
+        {
+            string sOutFilename = _sWebPath + sOutputPath + "\\winds\\" + _FileName;
+            //myProcessor.DownloadDataFile(sOutFilename, sFilename);
+            windsStat = sOutFilename;
+        }
+        else if (_Winds == m_cLocal)
         {
             //Process the winds
             _AggEngine = new AggregatorEngine(_Winds, _StartDate, _EndDate, _AOI, _sWebPath, _sWebPath + sOutputPath + "\\WINDS\\", _bIsRivers);
@@ -221,7 +230,14 @@ public partial class _Default : System.Web.UI.Page
 
         //Process the currents
         string currStat = "";
-        if (_Currents == m_cLocal)
+        //For CMT Currents
+        if (_CMTCurrents != "")
+        {
+            string sOutFilename = _sWebPath + sOutputPath + "\\currents\\" + _FileName + ".NC";
+            //myProcessor.DownloadDataFile(sOutFilename, sFilename);
+            currStat = sOutFilename;
+        }
+        else if (_Currents == m_cLocal)
         {
             if (_sCurrentsPrefix.ToUpper().Contains("STATIC"))
             {
@@ -779,6 +795,13 @@ public partial class _Default : System.Web.UI.Page
         _EcopCurrents = "";
         if (Request.QueryString["EcopCurrents"] != null)
             _EcopCurrents = Request.QueryString["EcopCurrents"];
+
+        _WNEWinds = "";
+        if (Request.QueryString["WNEID"] != null)
+            _WNEWinds = Request.QueryString["WNEID"];
+        _CMTCurrents = "";
+        if (Request.QueryString["CMTID"] != null)
+            _CMTCurrents = Request.QueryString["CMTID"];
 
         _WindMag = 0;
         if (Request.QueryString["WindMag"] != null)
