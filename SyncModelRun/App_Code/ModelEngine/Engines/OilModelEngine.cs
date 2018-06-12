@@ -1147,10 +1147,20 @@ public class OilModelEngine:ModelEngine
 
         return agoToken.token;
     }
+    private static bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
+    {
+        return true;
+    }
+
+    public static void IgnoreBadCertificates()
+    {
+        System.Net.ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
+    }
 
     public static string DoPostForString(string url, string postData)
     {
         // create the POST request
+        IgnoreBadCertificates();
         HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
         webRequest.Method = "POST";
         webRequest.ContentType = "application/x-www-form-urlencoded";
@@ -1159,6 +1169,7 @@ public class OilModelEngine:ModelEngine
         // POST the data
         using (StreamWriter requestWriter2 = new StreamWriter(webRequest.GetRequestStream()))
         {
+            
             requestWriter2.Write(postData);
         }
 

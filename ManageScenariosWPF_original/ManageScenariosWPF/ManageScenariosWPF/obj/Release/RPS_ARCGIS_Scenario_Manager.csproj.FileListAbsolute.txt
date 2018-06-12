@@ -129,3 +129,6 @@ F:\groups\rps_data\code\oilmap-esri-sync\ManageScenariosWPF_original\ManageScena
 F:\groups\rps_data\code\oilmap-esri-sync\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Release\RPS_ARCGIS_SCENARIO_MANAGER.application
 F:\groups\rps_data\code\oilmap-esri-sync\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Release\RPS_ARCGIS_SCENARIO_MANAGER.exe
 F:\groups\rps_data\code\oilmap-esri-sync\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Release\RPS_ARCGIS_SCENARIO_MANAGER.pdb
+F:\groups\rps_data\code\oilmap-esri-sync\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Release\RPS_ARCGIS_SCENARIO_MANAGER.Properties.Resources.resources
+F:\groups\rps_data\code\oilmap-esri-sync\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Release\RPS_ARCGIS_Scenario_Manager.csproj.GenerateResource.Cache
+F:\groups\rps_data\code\oilmap-esri-sync\ManageScenariosWPF_original\ManageScenariosWPF\ManageScenariosWPF\obj\Release\RPS_ARCGIS_Scenario_Manager.csprojResolveAssemblyReference.cache

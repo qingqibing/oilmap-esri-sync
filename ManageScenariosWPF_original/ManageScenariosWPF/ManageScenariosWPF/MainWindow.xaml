@@ -40,7 +40,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="RPS Oil
             TextAlignment="Left" TextWrapping="Wrap" Foreground="Black" HorizontalAlignment="Left" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Width="273" Margin="536,10,0,10" Grid.ColumnSpan="3">
         </TextBox> 
         <Grid Grid.ColumnSpan="2" Margin="0,0,364.4,0">
-            <Label Margin="301,534,-321,87" Content="Example: https://test.com/server/rest/services/oilmap/oilspill/FeatureServer" FontSize="10" ToolTip="" FontStyle="Italic" FontWeight="Bold"/>
+            <Label Margin="301,534,-321,87" Content="Example: https://test.com/server/rest/services/oilmap/oilspill/FeatureServer|'token'" FontSize="10" ToolTip="" FontStyle="Italic" FontWeight="Bold"/>
             <TextBox Name="urlText" Margin="301,503,-321,127" Text="enter feature service url" FontSize="10" ToolTip="enter feature service url"/>
             <Button x:Name="RefreshScenarioButton" Content="Refresh Scenarios" Click="RefreshScenarioButton_Click" ToolTip="Request Scenarios from Service." Margin="334,576,-21.2,47.6" Panel.ZIndex="1" RenderTransformOrigin="1,0.5" HorizontalAlignment="Left" Width="137" />
             <Button x:Name="DeleteScenarioButton" Content="Delete Scenario(s)" Click="DeleteScenarioButton_Click" ToolTip="Select scenario(s) in the data grid.  Click 'Delete Scenarios' to delete all data related to the scenario(s)." Margin="579,574,-266.2,46.6" Panel.ZIndex="1" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="137" />

@@ -8,3 +8,4 @@ LogFile.txt
 *.ini
 *.inp
 *.CSV
+/release

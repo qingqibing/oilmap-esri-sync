@@ -6,6 +6,9 @@ using ESRI.ArcGIS.Client.Geometry;
 using ESRI.ArcGIS.Client.Tasks;
 using System.Net;
 using System.IO;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Web.Caching;
 using System;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -21,6 +24,7 @@ namespace ManageScenariosWPF
 
         private BackgroundWorker backgroundWorker1;
         public String UrlFeatureService;
+        public String UrlFeatureServiceToken;
 
         public MainWindow()
         {
@@ -62,6 +66,39 @@ namespace ManageScenariosWPF
             public long expires { get; set; }
         }
 
+        //void string GenerateAGSToken()
+        //{
+        //    //expiration=524160 (364 days)
+        //    string postData = string.Format("f=json&username={0}&password={1}&client=requestip&expiration=524160", "siteadmin", "woodsideadmin");
+
+        //    string agsTokenData = this.DoPostForString("http://oceansmap.rpsgroup.com/server/tokens/generateToken", postData);
+        //    //{"token":"C4_fVBfIE8ULhZXrMuvFkwJ-i-u2E-XozErt8fhOqfy-3SHpeeoQStBDQN_NNtH4","expires":1382387566490}
+
+        //    JavaScriptSerializer js = new JavaScriptSerializer();
+
+        //    //Token oAuth2Token = js.Deserialize<Token>(responseData);
+        //    Token agsToken = js.Deserialize<Token>(agsTokenData);
+
+        //    //set cache item to expire 2 minutes before token expiration (usually 2 hours)
+        //    //expiration=524160 (364 days)
+        //    HttpRuntime.Cache.Insert(
+        //        "AGS_Token",
+        //        agsToken.token,
+        //        null,
+        //        Cache.NoAbsoluteExpiration,
+        //        new TimeSpan(363, 23, 58, 0),
+        //        CacheItemPriority.Default,
+        //        new CacheItemRemovedCallback(ReportRemovedAGSTokenCallback));
+
+        //    return agsToken.token;
+        //}
+
+        /*void ReportRemovedAGSTokenCallback(String key, object value,
+            System.Web.Caching.CacheItemRemovedReason removedReason)
+        {
+            this.GenerateAGSToken();
+        }*/
+
         private void MyMap_Loaded()
         {
             //trying to get the tokens working with secure data
@@ -82,8 +119,16 @@ namespace ManageScenariosWPF
             {
                 ////a.Map.Layers.Clear();
                 UrlFeatureService = urlText.Text;
+                var servicewithToken = UrlFeatureService.Split('|');
+                
                 var mylayer = new FeatureLayer();
-                mylayer.Url = urlText.Text + "/0";
+                if (servicewithToken.Length > 1)
+                {
+                    UrlFeatureService = servicewithToken[0];
+                    UrlFeatureServiceToken = servicewithToken[1];
+                    mylayer.Token = UrlFeatureServiceToken;
+                }
+                mylayer.Url = UrlFeatureService + "/0";
                 mylayer.OutFields = new OutFields() { "*" }; 
                 //mylayer.Token = agsToken.token;
                 var mylayerBase = this.MyMap.Layers[0] as TiledMapServiceLayer;
@@ -171,7 +216,7 @@ namespace ManageScenariosWPF
                 //string postData = string.Format("where={0}", WebUtility.UrlEncode(strWhere));
 
                 //process each layer
-                for (int layerId = 2; layerId >= 0; layerId--)
+                for (int layerId = 4; layerId >= 0; layerId--)
                 {
                     string noFeaturesAlert = string.Format("No features found in {0}: {1}", scenario, layerNames[layerId]);
 
@@ -203,8 +248,17 @@ namespace ManageScenariosWPF
                     //truncate last separator
                     delimIds = delimIds.Substring(0, delimIds.Length - 1);
                     string[] aryDelimIds = delimIds.Split(";".ToCharArray());
+                    string layerUrl = "";
 
-                    string layerUrl = string.Format("{0}/{1}/deleteFeatures?f=json", UrlFeatureService, layerId);
+                    if (UrlFeatureServiceToken != null)
+                    {
+                        layerUrl = string.Format("{0}/{1}/deleteFeatures?f=json&token={2}", UrlFeatureService, layerId, UrlFeatureServiceToken);
+                    }
+                    else
+                    {
+                        layerUrl = string.Format("{0}/{1}/deleteFeatures?f=json", UrlFeatureService, layerId);
+                    }
+                    
 
                     foreach (string ids in aryDelimIds)
                     {
@@ -303,10 +357,15 @@ namespace ManageScenariosWPF
                 ReturnIdsOnly = true,
                 Where = where
             };
+            
             QueryTask queryTask = new QueryTask()
             {
                 Url = string.Format("{0}/{1}", UrlFeatureService, layerId)
             };
+            if(UrlFeatureServiceToken != null){
+                queryTask.Token = UrlFeatureServiceToken;
+            }
+            
             return queryTask.Execute(query);
         }
     }
