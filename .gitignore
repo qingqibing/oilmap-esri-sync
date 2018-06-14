@@ -9,3 +9,4 @@ LogFile.txt
 *.inp
 *.CSV
 /release
+*.zip

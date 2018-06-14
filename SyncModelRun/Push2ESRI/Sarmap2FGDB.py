@@ -85,6 +85,7 @@ def PrepFCs(sSDEconn):
                                                   "POSTGRESQL", "localhost,9876", "DATABASE_AUTH", sUser, sPassword,
                                                   "SAVE_USERNAME", sDatabase)    
 
+    # change these tables according to postgres tables
     return os.path.join(sSDEconn,".".join([sDatabase,sUser2,"PARTICLES"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"TRACKLINE"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"ABCDBOX"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"ABCDPOINTS"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"SEARCHAREA"]))
 
 def ReadSarmap(sGeoLocPath, sScenarioName, sFGDB):
@@ -134,8 +135,8 @@ def ReadSarmap(sGeoLocPath, sScenarioName, sFGDB):
                 pnt = arcpy.Point()
                 pnt.X = lon
                 pnt.Y = lat
-                splt_cur = arcpy.da.InsertCursor(splt,['SHAPE@','DATETIME','SCENARIO_ID','TYPE'])
-                splt_cur.insertRow([pnt,d_time,time_stamp,particle_description])
+                splt_cur = arcpy.da.InsertCursor(splt,['SHAPE@','DATETIME','SCENARIO','TYPE'])
+                splt_cur.insertRow([pnt,d_time,sScenarioName,particle_description])
                 del splt_cur
                 areapts.add(pnt)
 
@@ -148,16 +149,16 @@ def ReadSarmap(sGeoLocPath, sScenarioName, sFGDB):
                 lat = float(spillet['loc'][1])
                 abcdpnt = arcpy.Point(lon, lat)
                 abcd.add(abcdpnt)
-                abcdpt_cur = arcpy.da.InsertCursor(abcdpt,['SHAPE@','DATETIME','SCENARIO_ID','VERTEX'])
-                abcdpt_cur.insertRow([abcdpnt,d_time,time_stamp,vertex[curr_vertex]])
+                abcdpt_cur = arcpy.da.InsertCursor(abcdpt,['SHAPE@','DATETIME','SCENARIO','VERTEX'])
+                abcdpt_cur.insertRow([abcdpnt,d_time,sScenarioName,vertex[curr_vertex]])
                 del abcdpt_cur
                 curr_vertex += 1
 
         if (SarMode != '0'):
             areapoly = arcpy.Multipoint(areapts)
             convex = areapoly.convexHull()
-            area_cur = arcpy.da.InsertCursor(area,['SHAPE@','SCENARIO_ID','DATETIME'])
-            area_cur.insertRow([convex, time_stamp, d_time])
+            area_cur = arcpy.da.InsertCursor(area,['SHAPE@','SCENARIO','DATETIME'])
+            area_cur.insertRow([convex, sScenarioName, d_time])
             del area_cur
                 
         lon_avg = (xmin + xmax) / 2
@@ -166,8 +167,8 @@ def ReadSarmap(sGeoLocPath, sScenarioName, sFGDB):
         trkline.add(pnt)
 
         abcdbox = arcpy.Polygon(abcd)
-        abcd_cur = arcpy.da.InsertCursor(abcd_table,['SHAPE@','SCENARIO_ID','DATETIME'])
-        abcd_cur.insertRow([abcdbox, time_stamp, d_time])
+        abcd_cur = arcpy.da.InsertCursor(abcd_table,['SHAPE@','SCENARIO','DATETIME'])
+        abcd_cur.insertRow([abcdbox, sScenarioName, d_time])
         del abcd_cur
 
     interval_hrs = int(reader.GetSRPSetting('Ideltat')) / 60
@@ -177,7 +178,7 @@ def ReadSarmap(sGeoLocPath, sScenarioName, sFGDB):
     description = reader.GetSRPSetting('Description')
     trackline = arcpy.Polyline(trkline)
     trk_cur = arcpy.da.InsertCursor(trk,['SHAPE@', 'START', 'END_', 'INTERVAL_HRS', 'SCENARIO', 'SCENARIO_ID', 'SITELON', 'SITELAT', 'DESCRIPTION', 'CASENAME'])
-    trk_cur.insertRow([trackline, start_time, end_time, interval_hrs, sScenarioName, time_stamp, site_lon, site_lat, description, original_case])
+    trk_cur.insertRow([trackline, start_time, end_time, interval_hrs, sScenarioName, sScenarioName, site_lon, site_lat, description, original_case])
     del trk_cur
 
 class SarmapReader(object):

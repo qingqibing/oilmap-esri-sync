@@ -7,14 +7,14 @@
     <framework targetVersion="4.5" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="RPS_ARCGIS_SCENARIO_MANAGER.exe.manifest" size="85151">
+    <dependentAssembly dependencyType="install" codebase="Application Files\RPS_ARCGIS_SCENARIO_MANAGER_1_0_0_10\RPS_ARCGIS_SCENARIO_MANAGER.exe.manifest" size="85151">
       <assemblyIdentity name="RPS_ARCGIS_SCENARIO_MANAGER.exe" version="1.0.0.10" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>zFJ+YRZnTLKjJIhPBbs2OKCFFgG5Q+gsON8Sjd9ufoM=</dsig:DigestValue>
+        <dsig:DigestValue>055eKSA3wFW2d5eSxvu9sqA88bF/GW6L+Q/NodR71X0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
