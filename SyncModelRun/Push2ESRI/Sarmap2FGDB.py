@@ -60,20 +60,6 @@ def CalculateDateTime(elapsed_minutes):
     dtTimeStep = dtBase + d
     return dtTimeStep
 
-def CreateFCs(sFGDB,sScenarioName,SarMode):
-    import shutil
-    file_name = 'IAMSAR.gdb' if SarMode == '0' else 'MONTECARLO.gdb'
-    template = os.path.join(os.getcwd(), file_name)
-
-    try:
-        shutil.rmtree(sFGDB)
-    except:
-        sFGDB.replace(sScenarioName+".gdb",sScenarioName+"_2.gdb",)
-    shutil.copytree(template, sFGDB)
-
-    return os.path.join(sFGDB,"PARTICLES"), os.path.join(sFGDB,"TRACKLINE"), os.path.join(sFGDB,"ABCDBOX"), os.path.join(sFGDB, "ABCDPOINTS"), os.path.join(sFGDB,"SEARCHAREA")
-
-
 def PrepFCs(sSDEconn):
     sDatabase = "db_qdrdy"
     sUser = "adm_w9b4n"
@@ -92,7 +78,6 @@ def ReadSarmap(sGeoLocPath, sScenarioName, sFGDB):
     
     reader = SarmapReader(sGeoLocPath + os.path.sep + "OUTDATA" + os.path.sep + sScenarioName)
     SarMode = reader.GetSarMode()
-    #splt, trk, abcd, abcdpt, area = CreateFCs(sFGDB, sScenarioName, SarMode)
     sSDEpath = r"C:\oilmap\Push2ESRI\database.sde"
     splt, trk, abcd_table, abcdpt, area = PrepFCs(sSDEpath)
     time_stamp = reader.GetSRPSetting('TimeStamp')
