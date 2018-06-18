@@ -1,3 +1,4 @@
+*.zip
 *.ERR
 *.CMT
 *.WNE
@@ -8,5 +9,3 @@ LogFile.txt
 *.ini
 *.inp
 *.CSV
-/release
-*.zip
