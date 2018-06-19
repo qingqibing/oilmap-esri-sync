@@ -365,8 +365,14 @@ namespace ManageScenariosWPF
             if(UrlFeatureServiceToken != null){
                 queryTask.Token = UrlFeatureServiceToken;
             }
-            
-            return queryTask.Execute(query);
+            try
+            {
+                return queryTask.Execute(query);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 
