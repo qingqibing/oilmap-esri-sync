@@ -193,7 +193,7 @@ public partial class _Default : System.Web.UI.Page
             string sDate = _StartDate.ToString("yyyy-MM-ddThh:mm:ssZ");
             string eDate = _EndDate.ToString("yyyy-MM-ddThh:mm:ssZ");
 
-            string wneURL = "http://data.oceansmap.com/model_data_service/get_data?start_time="+ sDate + "&end_time="+ eDate + "&station_id="+ _WNEWinds + "&type=WNE&source_id=ndbc";
+            string wneURL = "https://data.oceansmap.com/model_data_service/get_data?start_time="+ sDate + "&end_time="+ eDate + "&station_id="+ _WNEWinds + "&type=WNE&token=gen_model_data&source_id=woodside_private";
             using (var client = new WebClient())
             {
                 //"http://data.oceansmap.com/model_data_service/get_data?start_time=2018-03-04T00:00:00Z&end_time=2018-03-10T00:00:00Z&station_id=46088&type=WNE&source_id=ndbc"
@@ -244,7 +244,7 @@ public partial class _Default : System.Web.UI.Page
             string sOutFilename = _sWebPath + sOutputPath + "\\currents\\" + _FileName + ".CMT";
             string sDate = _StartDate.ToString("yyyy-MM-ddThh:mm:ssZ");
             string eDate = _EndDate.ToString("yyyy-MM-ddThh:mm:ssZ");
-            string cmtURL = "http://data.oceansmap.com/model_data_service/get_data?start_time=" + sDate + "&end_time=" + eDate + "&station_id=" + _CMTCurrents + "&type=CMT&source_id=ndbc";
+            string cmtURL = "https://data.oceansmap.com/model_data_service/get_data?start_time=" + sDate + "&end_time=" + eDate + "&station_id=" + _CMTCurrents + "&type=CMT&source_id=woodside_private&token=gen_model_data";
             using (var client = new WebClient())
             {
                 //"http://data.oceansmap.com/model_data_service/get_data?start_time=2018-03-04T00:00:00Z&end_time=2018-03-10T00:00:00Z&station_id=46088&type=CMT&source_id=ndbc"
@@ -275,7 +275,7 @@ public partial class _Default : System.Web.UI.Page
         {
             currStat = "";
         }
-        else if (_Currents != m_cNoData)
+        else if (_Currents != m_cNoData)//EDS
         {
             string sFilename = myProcessor.GetDataFile(_ClientKey, _Currents, _StartDate, _EndDate, _AOI);
             string sResult = myProcessor.GetStatus(sFilename);

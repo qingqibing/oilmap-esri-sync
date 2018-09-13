@@ -55,6 +55,9 @@ public class OilInputData:InputData
     private double _CurrMag;
     private double _CurrDir;
 
+    private double _WindMag;
+    private double _WindDir;
+
     private double _WaterTemp;
 
     //XP added 
@@ -271,6 +274,18 @@ public class OilInputData:InputData
     {
         get { return _CurrDir; }
         set { _CurrDir = value; }
+    }
+
+    public double WindMag
+    {
+        get { return _WindMag; }
+        set { _WindMag = value; }
+    }
+
+    public double WindDir
+    {
+        get { return _WindDir; }
+        set { _WindDir = value; }
     }
 
     public double WaterTemp
