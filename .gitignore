@@ -9,3 +9,4 @@ LogFile.txt
 *.ini
 *.inp
 *.CSV
+/SyncModelRun/ModalData/*

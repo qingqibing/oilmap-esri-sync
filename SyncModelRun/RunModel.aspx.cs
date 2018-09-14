@@ -140,7 +140,7 @@ public partial class _Default : System.Web.UI.Page
         //Path Settings
         if (Request.QueryString.Count == 0)
             //W00ds1de337 //woodside
-            Response.Redirect("RunModel.aspx?CaseName=SAMPLE_TEST3&ClientKey=OilWebDemo17&ModelType=OILSPILL&StartDate=20170511T12:00:00&simLength=24&WaterTemp=72.6F&IncLat=33.856999&IncLon=-118.541794&Winds=390&Currents=765&EcopWinds=GFS_WINDS&EcopCurrents=HYCOM_global_Navy_currents&Duration=6&Location=WORLD&&Volume=1000&group=7f22adb83ed7431f824df84a41a7f038&every1share=true&OilType=Heavy%20Crude%20Oil&OilUnits=5&FullPath=true&scriptid=Model2Shape&description=test");//&WNEID=46088&CMTID=46088
+            Response.Redirect("RunModel.aspx?CaseName=SAMPLE2&ClientKey=OilWebDemo17&ModelType=OILSPILL&StartDate=20180911T15:00:00&simLength=24&WaterTemp=72.6F&IncLat=33.856999&IncLon=-118.541794&Winds=390&Currents=765&EcopWinds=GFS_WINDS&EcopCurrents=HYCOM_global_Navy_currents&Duration=6&Location=WORLD&&Volume=1000&group=7f22adb83ed7431f824df84a41a7f038&every1share=true&OilType=Heavy%20Crude%20Oil&OilUnits=5&FullPath=true&scriptid=Model2Shape&description=test&WNEID=Wanaea_Okha_FPSO&CMTID=Wanaea_Okha_FPSO");//&WNEID=Wanaea_Okha_FPSO&CMTID=Wanaea_Okha_FPSO
         _sWebPath = Path.GetDirectoryName(Server.MapPath("ModelRunMapPath.txt"));
         _OutputFile = "ERROR: an unknown error has occured in Page_Load";
         
@@ -190,8 +190,8 @@ public partial class _Default : System.Web.UI.Page
         if (_WNEWinds != "")
         {
             string sOutFilename = _sWebPath + sOutputPath + "\\winds\\" + _FileName + ".WNE";
-            string sDate = _StartDate.ToString("yyyy-MM-ddThh:mm:ssZ");
-            string eDate = _EndDate.ToString("yyyy-MM-ddThh:mm:ssZ");
+            string sDate = _StartDate.ToString("yyyy-MM-ddTHH:mm:ssZ");
+            string eDate = _EndDate.ToString("yyyy-MM-ddTHH:mm:ssZ");
 
             string wneURL = "https://data.oceansmap.com/model_data_service/get_data?start_time="+ sDate + "&end_time="+ eDate + "&station_id="+ _WNEWinds + "&type=WNE&token=gen_model_data&source_id=woodside_private";
             using (var client = new WebClient())
@@ -200,6 +200,13 @@ public partial class _Default : System.Web.UI.Page
                 client.DownloadFile(wneURL, sOutFilename);
             }
             windsStat = sOutFilename;
+
+            string sWNLFile = Path.ChangeExtension(sOutFilename, ".WNL");
+            using (StreamWriter outfile = new StreamWriter(sWNLFile))
+            {
+                outfile.WriteLine(_IncidentSite.lon.ToString() + " " + _IncidentSite.lat.ToString());
+                outfile.WriteLine("");
+            }
         }
         else if (_Winds == m_cLocal)
         {
@@ -242,8 +249,8 @@ public partial class _Default : System.Web.UI.Page
         if (_CMTCurrents != "")
         {
             string sOutFilename = _sWebPath + sOutputPath + "\\currents\\" + _FileName + ".CMT";
-            string sDate = _StartDate.ToString("yyyy-MM-ddThh:mm:ssZ");
-            string eDate = _EndDate.ToString("yyyy-MM-ddThh:mm:ssZ");
+            string sDate = _StartDate.ToString("yyyy-MM-ddTHH:mm:ssZ");
+            string eDate = _EndDate.ToString("yyyy-MM-ddTHH:mm:ssZ");
             string cmtURL = "https://data.oceansmap.com/model_data_service/get_data?start_time=" + sDate + "&end_time=" + eDate + "&station_id=" + _CMTCurrents + "&type=CMT&source_id=woodside_private&token=gen_model_data";
             using (var client = new WebClient())
             {
@@ -273,7 +280,8 @@ public partial class _Default : System.Web.UI.Page
         }
         else if (_Currents == m_cConstant)
         {
-            currStat = "";
+            currStat = _sWebPath + sOutputPath + "\\Currents\\" + _FileName + ".CMT";
+            CreateCMTFile(currStat, _CurrMag, _CurrDir);
         }
         else if (_Currents != m_cNoData)//EDS
         {
@@ -325,7 +333,7 @@ public partial class _Default : System.Web.UI.Page
             else //comprehensive
                 oilInput.timeStep = 10;
 
-            if (_Currents == m_cConstant)
+            /*if (_Currents == m_cConstant)
             {
                 oilInput.CurrMag = _CurrMag;
                 oilInput.CurrDir = _CurrDir;
@@ -334,7 +342,7 @@ public partial class _Default : System.Web.UI.Page
             {
                 oilInput.CurrMag = -999;
                 oilInput.CurrDir = -999;
-            }
+            }*/
 
             oilInput.oilType = _OilType;
             /*if ((_Currents > 0) || (_Winds > 0))
@@ -418,8 +426,8 @@ public partial class _Default : System.Web.UI.Page
         }
 
         //this may be in a different location so best to check all enviormental variables are correct
-        string pyLoc = "\"" + sPythonPath + "ArcGIS" + sArcVersion + "\\python.exe\"";
-        //string pyLoc = @"C:\Python27\ArcGISx6410.5\python.exe";  //for deploy on server
+        //string pyLoc = "\"" + sPythonPath + "ArcGIS" + sArcVersion + "\\python.exe\"";
+        string pyLoc = @"C:\Python27\ArcGISx6410.5\python.exe";  //for deploy on server
 
         Push2ESRI(pyLoc, pyCommandInput);
     }
@@ -676,34 +684,81 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
+    private void CreateCMTFile(string sFilename, double iMagnitude, double dDirection)
+    {
+        try
+        {
+            using (StreamWriter sw = new StreamWriter(sFilename))
+            {
+                //&CMTID=Wanaea_Okha_FPSO&WNEID=North_Rankin_Complex
+                sw.WriteLine("# Constant current file generated for " + _sCaseName);
+                sw.WriteLine(String.Format("1 {0} =ndepth ntime", _SimLength)); //One record for every hour in the sim
+                sw.WriteLine(String.Format("0 {0} {1} =depth lon lat", _IncidentSite.lat, _IncidentSite.lon)); //just one depth value, at the surface
+                DateTime currTime = _StartDate;
+                for (int i = 0; i < _SimLength; i++)
+                {
+                    float U = (float)(iMagnitude * Math.Cos((90 - dDirection) * 0.0174532925));
+                    float V = (float)(iMagnitude * Math.Sin((90 - dDirection) * 0.0174532925));
+                    sw.WriteLine(String.Format("{0} {1} {2} {3} {4} {5} {6}",
+
+                        currTime.Year,
+
+                        currTime.Month,
+
+                        currTime.Day,
+
+                        currTime.Hour,
+
+                        currTime.Minute,
+
+                        U.ToString("F4"),
+
+                        V.ToString("F4")));
+                    currTime = currTime.AddHours(1);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
     private void CreateWNEFile(string sFilename, double iMagnitude, double dDirection)
     {
         short iU, iV;
         iU = (short)((iMagnitude * 51.4444444) * Math.Cos((90 - dDirection) * (Math.PI / 180))); //convert to cm/s first
-        iV = (short)((iMagnitude * 51.4444444) * Math.Sin((90 - dDirection) * (Math.PI / 180)));
 
+        iV = (short)((iMagnitude * 51.4444444) * Math.Sin((90 - dDirection) * (Math.PI / 180)));
         using (BinaryWriter binWriter = new BinaryWriter(File.Open(sFilename, FileMode.Create)))
         {
-            DateTime baseDate = new DateTime(1979, 12, 31); 
+            DateTime baseDate = new DateTime(1979, 12, 31);
+
             DateTime myTime = _StartDate;
+
             while (myTime <= _EndDate)
             {
                 TimeSpan mySpan = myTime.Subtract(baseDate);
+
                 int myLongTime = (int)mySpan.TotalMinutes;
+
                 binWriter.Write(myLongTime);
+
                 binWriter.Write(iU);
+
                 binWriter.Write(iV);
+
                 myTime = myTime.AddHours(1);
+
             }
         }
-
         string sWNLFile = Path.ChangeExtension(sFilename, ".WNL");
+
         using (StreamWriter outfile = new StreamWriter(sWNLFile))
+
         {
-            outfile.WriteLine(_IncidentSite.lon.ToString() + " " + _IncidentSite.lat.ToString());
+            outfile.WriteLine(_IncidentSite.lat.ToString() + " " + _IncidentSite.lon.ToString());
             outfile.WriteLine("");
         }
-
     }
 
     private string processQueryString()
