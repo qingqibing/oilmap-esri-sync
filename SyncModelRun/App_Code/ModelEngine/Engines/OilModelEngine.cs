@@ -738,7 +738,7 @@ public class OilModelEngine:ModelEngine
 
         WritePrivateProfileString("OILMAPW", "Water Temp", _InputData.WaterTemp.ToString(), inpFile);
 
-        if (_InputData.CurrMag != -999)
+        /*if (_InputData.CurrMag != -999)
         {
             WritePrivateProfileString("OILMAPW", "UseConstantCurrent", "1", inpFile);
             WritePrivateProfileString("OILMAPW", "ConstantCurrentSpeed", _InputData.CurrMag.ToString(), inpFile);
@@ -748,7 +748,7 @@ public class OilModelEngine:ModelEngine
         else
         {
             WritePrivateProfileString("OILMAPW", "UseContantCurrent", "0", inpFile);
-        }
+        }*/
 
         string outInpFile = Path.GetDirectoryName(_InputData.inpPath) + "\\outdata\\" + _InputData.fileName + ".inp";
         File.Copy(inpFile, outInpFile);
