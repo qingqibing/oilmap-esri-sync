@@ -24,7 +24,7 @@ namespace ManageScenariosWPF
 
         private BackgroundWorker backgroundWorker1;
         public String UrlFeatureService;
-        public String UrlFeatureServiceToken;
+        public String UrlFeatureServiceToken = null;
 
         public MainWindow()
         {
