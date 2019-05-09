@@ -1,0 +1,3 @@
+Watch 4 folder 2.5 running on computer STEPHEN-WM by user ssontag
+Windows Platform: Windows 8.1
+05/09/19 10:40:33 AM: test: File create event, file name: F:\groups\rps_data\code\oilmap-esri-sync\outdata\asa_model_esri\ScenarioSample.zip

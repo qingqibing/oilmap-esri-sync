@@ -1,1 +1,0 @@
-This is needed to map the path to the application, please do not delete.

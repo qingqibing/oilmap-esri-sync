@@ -7,7 +7,7 @@
     <framework targetVersion="4.5" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="RPS_ARCGIS_SCENARIO_MANAGER.exe.manifest" size="85151">
+    <dependentAssembly dependencyType="install" codebase="Application Files\RPS_ARCGIS_SCENARIO_MANAGER_1_0_0_11\RPS_ARCGIS_SCENARIO_MANAGER.exe.manifest" size="85151">
       <assemblyIdentity name="RPS_ARCGIS_SCENARIO_MANAGER.exe" version="1.0.0.11" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>

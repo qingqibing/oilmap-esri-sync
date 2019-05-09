@@ -1,1 +1,0 @@
-<%@ Page Language="C#" AutoEventWireup="true" ContentType="text/plain" CodeFile="GetColorKey.aspx.cs" Inherits="GetColorKey" %>

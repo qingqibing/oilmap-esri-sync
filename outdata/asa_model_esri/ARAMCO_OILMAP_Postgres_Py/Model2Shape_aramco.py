@@ -17,23 +17,20 @@ def CalculateDateTime(dtBase, iElapsedHours):
     dtTimeStep = dtBase + d
     return dtTimeStep
    
-
 def PrepFCs(sSDEconn):
-#     sDatabase = "db_ckn82"
-#     sUser = "adm_d7x4r"
-#     sUser2 = "hsu_4p3wv"
-#     sPassword = "KjHLZHa8QIo="
-# 
-#     if os.path.exists(sSDEconn) == False:
-#         arcpy.CreateDatabaseConnection_management(os.path.split(sSDEconn)[0], os.path.split(sSDEconn)[1],
-#                                                   "POSTGRESQL", "localhost,9876", "DATABASE_AUTH", sUser, sPassword,
-#                                                   "SAVE_USERNAME", sDatabase)    
 
-#    return os.path.join(sSDEconn,".".join([sDatabase,sUser2,"SpillPoint"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"ShoreLines"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"Spillets"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"Trackline"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"Thickness"]))
+    sDatabase = "db_7ifhn"
+    sUser = "adm_ror3v"
+    sUser2 = "hsu_3yd5x"
+    sPassword = "xOO8usSd=bM="
+
+    if os.path.exists(sSDEconn) == False:
+        arcpy.CreateDatabaseConnection_management(os.path.split(sSDEconn)[0], os.path.split(sSDEconn)[1],"POSTGRESQL", "localhost,9876", "DATABASE_AUTH", sUser, sPassword,"SAVE_USERNAME", sDatabase)
+    
+    return os.path.join(sSDEconn,".".join([sDatabase,sUser2,"template_oilmap_SpillPoint"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"template_oilmap_ShoreOil"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"template_oilmap_Spillets"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"template_oilmap_Trackline"])), os.path.join(sSDEconn,".".join([sDatabase,sUser2,"template_oilmap_Thickness"]))
     
     ##temp output location
-    return os.path.join(r"C:\Projects\ARAMCO_OILMAP_ArcGIS_Integration\SampleOutput.gdb","SpillPoint"),os.path.join(r"C:\Projects\ARAMCO_OILMAP_ArcGIS_Integration\SampleOutput.gdb","ShoreOil"), os.path.join(r"C:\Projects\ARAMCO_OILMAP_ArcGIS_Integration\SampleOutput.gdb","Spillets"), os.path.join(r"C:\Projects\ARAMCO_OILMAP_ArcGIS_Integration\SampleOutput.gdb","Trackline"), os.path.join(r"C:\Projects\ARAMCO_OILMAP_ArcGIS_Integration\SampleOutput.gdb","Thickness")
-    
+    #return os.path.join(r"C:\Projects\ARAMCO_OILMAP_ArcGIS_Integration\SampleOutput.gdb","SpillPoint"),os.path.join(r"C:\Projects\ARAMCO_OILMAP_ArcGIS_Integration\SampleOutput.gdb","ShoreOil"), os.path.join(r"C:\Projects\ARAMCO_OILMAP_ArcGIS_Integration\SampleOutput.gdb","Spillets"), os.path.join(r"C:\Projects\ARAMCO_OILMAP_ArcGIS_Integration\SampleOutput.gdb","Trackline"), os.path.join(r"C:\Projects\ARAMCO_OILMAP_ArcGIS_Integration\SampleOutput.gdb","Thickness") 
     
 def ReadOilmap2D(basePath, scenarioData, sScenarioID, sSDEconn):
     
@@ -186,16 +183,25 @@ def ReadScenario(sScenarioIN3):
     return scenarioData
 
 
-def Run(sScenarioOutZipFile, sScenarioID, sSDEpath):
+def Run(sScenarioOutZipFile):
     ##### ADDED SECTION 1 #####
     import zipfile
+    
     zip = zipfile.ZipFile(sScenarioOutZipFile, 'r')
     zip.extractall(os.path.split(sScenarioOutZipFile)[0])
     zip.close()
     
-    sIN3file = os.path.join(os.path.split(sScenarioOutZipFile)[0],os.path.splitext(os.path.split(sScenarioOutZipFile)[1])[0])+".IN3"
-    ##### END SECTION 1 #####
+    sSDEpath = os.getcwd() + '\\database.sde';
+    print os.getcwd()
     
+     ##### END SECTION 1 #####
+    for root, dirs, files in os.walk(os.path.split(sScenarioOutZipFile)[0]):
+        for f in files:
+            fullpath = os.path.join(root, f)
+            if os.path.splitext(fullpath)[1] == '.IN3':
+                sIN3file = fullpath.replace('RUNDATA', 'MODELOUT')
+
+    print sIN3file
     
     ##### UPDATED SECTION 2 #####
     scenarioData = ReadScenario(sIN3file)    
@@ -205,7 +211,7 @@ def Run(sScenarioOutZipFile, sScenarioID, sSDEpath):
     
     #To be sys.argv later
     sScenarioID = scenarioData["Scenario"] + "_" + datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-    sSDEpath = ""
+    # sSDEpath = ""
      
     ReadOilmap2D(basePath, scenarioData, sScenarioID, sSDEpath)
     #print scenarioData
@@ -231,4 +237,4 @@ def Run(sScenarioOutZipFile, sScenarioID, sSDEpath):
 
 
 if __name__ == "__main__":
-    Run(sys.argv[1], sys.argv[2], sys.argv[3])
+    Run(sys.argv[1])
