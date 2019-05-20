@@ -128,7 +128,7 @@ namespace ManageScenariosWPF
                     UrlFeatureServiceToken = servicewithToken[1];
                     mylayer.Token = UrlFeatureServiceToken;
                 }
-                mylayer.Url = UrlFeatureService + "/0";
+                mylayer.Url = UrlFeatureService + "/2";
                 mylayer.OutFields = new OutFields() { "*" }; 
                 //mylayer.Token = agsToken.token;
                 var mylayerBase = this.MyMap.Layers[0] as TiledMapServiceLayer;
@@ -190,7 +190,7 @@ namespace ManageScenariosWPF
             //get the graphics from calling thread
             IList<Graphic> trajectories = e.Argument as IList<Graphic>;
 
-            string[] layerNames = { "Trajectory", "Particles", "Thickness","SAR BOX", "SAR SEARCH AREA"};
+            string[] layerNames = { "Trajectory", "Particles", "Thickness","Ashore Oil", "Start Point"};
             int i = 0;
             int batchSize = 500;
             //string[] templayerlistfix = { "2015-04-06_625_27413", "Light Crude 500 bbls_272_78240", "Medium Crude-1,000 bbls_284_63507", "ScenarioName_206_93879", "ScenarioName_301_39787", "ScenarioName_556_53855", "ScenarioName_935_84617", "ScenarioName_964_59382" };
